@@ -47,8 +47,12 @@ def pytest_collection_modifyitems(config, items):
                 line.strip().replace('.', os.sep) + '.py')
             names.add(modpath)
 
+    rootdir = config.rootdir
+    if not isinstance(rootdir, str):
+        rootdir = rootdir.strpath
+
     for item in items[:]:  # iterate over a copy of the list
-        relpath = os.path.relpath(item.fspath, config.rootdir.strpath)
+        relpath = os.path.relpath(item.fspath, rootdir)
         if relpath in names:
             # Whitelisted test
             continue
@@ -89,10 +93,14 @@ def pytest_load_initial_conftests(early_config, args):
     elif from_filenames_equals_idx:
         from_filenames_str = args.pop(from_filenames_equals_idx).split('--from-filenames=', 1)[-1]
 
+    rootdir = early_config.rootdir
+    if not isinstance(rootdir, str):
+        rootdir = rootdir.strpath
+
     test_module_paths = []
     from_filenames = []
     for path in [path.strip() for path in from_filenames_str.split(',')]:
-        if not os.path.exists(os.path.join(early_config.rootdir, path)):
+        if not os.path.exists(os.path.join(rootdir, path)):
             # This path does not map to any file in salt's source tree
             continue
         if path in from_filenames:
@@ -153,7 +161,7 @@ def pytest_load_initial_conftests(early_config, args):
                 continue
 
     # Next, try the filename_map
-    salt_filename_map = os.path.join(early_config.rootdir, 'tests', 'filename_map.yml')
+    salt_filename_map = os.path.join(rootdir, 'tests', 'filename_map.yml')
     if not os.path.exists(salt_filename_map):
         # We can't map salt modules to test modules
         # Inject any passed in test modules into args
