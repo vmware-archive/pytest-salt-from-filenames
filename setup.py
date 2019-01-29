@@ -13,7 +13,7 @@ def read(fname):
 
 setup(
     name='pytest-salt-from-filenames',
-    version='2019.1.29',
+    version='2019.1.30',
     author='Pedro Algarvio',
     author_email='pedro@algarvio.me',
     maintainer='Pedro Algarvio',
