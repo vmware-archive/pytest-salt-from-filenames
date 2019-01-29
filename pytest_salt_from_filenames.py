@@ -48,7 +48,7 @@ def pytest_collection_modifyitems(config, items):
             names.add(modpath)
 
     for item in items[:]:  # iterate over a copy of the list
-        relpath = os.path.relpath(item.fspath, config.rootdir)
+        relpath = os.path.relpath(item.fspath, config.rootdir.strpath)
         if relpath in names:
             # Whitelisted test
             continue
