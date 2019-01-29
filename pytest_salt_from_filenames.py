@@ -27,6 +27,7 @@ def pytest_addoption(parser):
               'line. Providing the paths in a file can help get around '
               'shell character limits when the list of files is long.')
     )
+    group.addoption('--names-file', default=None, help='Ignored for now')
 
 
 
