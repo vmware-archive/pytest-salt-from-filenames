@@ -52,7 +52,7 @@ def pytest_collection_modifyitems(config, items):
         rootdir = rootdir.strpath
 
     for item in items[:]:  # iterate over a copy of the list
-        relpath = os.path.relpath(item.fspath, rootdir)
+        relpath = os.path.relpath(item.fspath.strpath, rootdir)
         if relpath in names:
             # Whitelisted test
             continue
